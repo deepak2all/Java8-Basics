@@ -1,0 +1,52 @@
+
+System.out.println("Min price of each item");
+        Map<String, Optional<Item>> minPriceofEachItem 
+        	= items.stream().collect(Collectors.groupingBy(Item::getName, 
+        		Collectors.minBy(Comparator.comparing(Item::getPrice))));
+        System.out.println(minPriceofEachItem);
+
+System.out.println("Min price item");
+        Optional<Item> minPriceItem = items.stream().collect(
+        		Collectors.minBy(Comparator.comparing(Item::getPrice)));
+        System.out.println(minPriceItem);
+
+String maxLenStr = Stream.of(sentence.split(" ")).
+		max(Comparator.comparingInt(s -> s.toString().length())).get();
+
+String firstLongestWord = Stream.of(sentence2.split(" ")).
+		max(Comparator.comparingInt(String::length)).get();
+		
+Stream<String> stream = Stream.of("4", "7", "25", "87");
+	    Optional<String> opMax = stream.collect(Collectors.maxBy(String::compareTo));
+
+Map<String,Long> descSortItemsWithValue = new LinkedHashMap<>();
+		itemWithQty.entrySet().stream()
+					.sorted(Map.Entry.<String,Long>comparingByValue().reversed())
+					.forEachOrdered(item -> descSortItemsWithValue.put(item.getKey(), item.getValue()));
+		System.out.println(descSortItemsWithValue);
+
+Collections.sort(items, 
+                Comparator.comparingInt( 
+                    Item::getQty).reversed().thenComparing(Item::getName).reversed()); 
+        items.forEach(e -> System.out.println(e.getName() + " ## " +e.getQty()));
+        
+Comparator<Person> comparator = comparing(Person::getName, naturalOrder());
+// sort in descending order
+Comparator<Person> comparator = comparing(Person::getName, reverseOrder());
+// sort in case insensitive descending order 
+Comparator<Person> comparator = 
+         comparing(Person::getName, String.CASE_INSENSITIVE_ORDER.reversed());
+// concise version
+Comparator<Person> comparator = comparing(Person::getName);
+// using nulls
+Comparator<Person> comparing = 
+        comparing(Person::getName, nullsLast(naturalOrder()));
+// multiple comparisons        
+Comparator<Person> comparator = 
+        comparingInt(Person::getAge).thenComparing(Person::getName);
+
+=======================================================================================
+List<person> people = Arrays.asList(new Person("abc", 1), new Person("def", 2));
+List<person> sortedPeople = people.stream()
+.sorted(Comparator.comparing(Person::getName, Comparator.reverseOrder()))
+.collect(Collectors.toList()); 
